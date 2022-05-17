@@ -4,7 +4,7 @@ html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
+strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
@@ -163,6 +163,7 @@ input[type="text"], textarea {
 .card {
     width: 296px;
     padding: 20px 15px 20px 15px;
+    border: 3px solid transparent;
 }
 
 .card:hover {
@@ -220,7 +221,11 @@ input[type="text"], textarea {
     line-height: 24px;
 }
 
-.add__cart:hover {
+.btn {
+    border-style: none;
+}
+
+.btn:hover {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -231,11 +236,12 @@ input[type="text"], textarea {
 }
 
 .cart__full {
-    height: 150px;
+    height: 250px;
     padding: 10px;
     display: flex;
     align-items:center;
     background-color: #F5F5F5;
+    overflow-y: scroll;
 }
 
 .checkout__box {
@@ -268,4 +274,20 @@ input[type="text"], textarea {
 .box__positioning, .box__positioning-2 {
     display: flex;
     justify-content: space-between;
+}
+
+.itemBox {
+    display: flex;
+    justify-content: center;
+}
+
+.infoBox {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+.btn__remove {
+    padding-right: 50px;
+    padding-left: 0px;
 }
