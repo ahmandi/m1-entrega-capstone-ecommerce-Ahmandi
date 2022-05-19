@@ -1,6 +1,9 @@
 let removeBtn               = document.getElementsByClassName('btn__remove');
 let removal                 = document.getElementById('removal');
 const productShowcase       = document.querySelector('.showcase')
+const searchBar = document.getElementById("searchBar");
+const navigation = document.querySelector('.nav__list')
+navigation.addEventListener("click", filterPage)
 productShowcase.addEventListener('click', addItem)
 removal.addEventListener('click', removeItem)
 
@@ -16,7 +19,7 @@ function criarProdutos(produtos){
         let productTitle       = document.createElement('h1')
         let productDescription = document.createElement('h3')
         let productValue       = document.createElement('h4')
-        let productCart        = document.createElement('h5')
+        let productCart        = document.createElement('button')
 
         productCard.classList.add('card')
         productMain.classList.add('main')
@@ -29,7 +32,7 @@ function criarProdutos(produtos){
         productCart.classList.add('add__cart', 'btn')
         
         productImg.src               = produtos[i].img
-        productType.innerText        = produtos[i].tag[0]
+        productType.innerText        = produtos[i].link
         productTitle.innerText       = produtos[i].nameItem
         productDescription.innerText = produtos[i].description
         productValue.innerText       = produtos[i].value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -69,7 +72,7 @@ function criarProdutosCart(){
         productInfo.innerText  = listaProdutosCarrinho[i].nameItem
         productValue.innerText = listaProdutosCarrinho[i].value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         productRemove.id       = listaProdutosCarrinho[i].id
-        productRemove.innerText= 'Remover'
+        productRemove.innerText= 'Remover produto'
 
         productBox.append(productInfo, productValue, productRemove)
         productItem.append(productImg, productBox)
@@ -93,4 +96,54 @@ function removeItem(event){
 
     listaProdutosCarrinho = listaProdutosCarrinho.filter(item => item.id != productId)
     criarProdutosCart()
+}
+
+//FUNÇÃO EM ANDAMENTO
+function calculateTotal(listaProdutosCarrinho){
+    const itemQty = document.querySelector('.itemQuantity')
+    const itemValue = document.querySelector('.itemTotal')
+    
+    let quantidade = 0
+    let precoTotal = 0
+    
+    const valor = document.querySelector('.totalValue')
+
+    listaProdutosCarrinho.forEach(item => {
+        precoTotal += Number(listaProdutosCarrinho[i].value)
+    })
+
+    itemTotal.innerText = precoTotal
+
+    for(let i = 0; i < listaProdutosCarrinho.length; i++){
+        quantidade += listaProdutosCarrinho.length
+        valor += listaProdutosCarrinho.length
+    }
+
+    itemQty.innerText = quantidade
+}
+
+//FUNÇÃO EM ANDAMENTO, APENAS 'TODOS' FUNCIONA
+function filterPage(event){
+    productShowcase.innerHTML = '';
+    const arr = [];
+
+    const type = event.target;
+    const productId = type.id
+    const tagSelector = data.find(item => item.id == productId)
+    
+    if(type.id == 'Todos'){
+        criarProdutos(data)
+     } else {
+        if(type.id == data.link){
+            arr.push(tagSelector)
+        }
+        criarProdutos(arr)
+    }
+    //  }
+
+    // if(arr.length == 0 && productShowcase !== ''){
+    //     productShowcase.data
+    // } else {
+        
+    //}
 }

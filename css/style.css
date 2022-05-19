@@ -236,7 +236,8 @@ input[type="text"], textarea {
 }
 
 .cart__full {
-    max-height: 250px;
+    width: 94,5%;
+    height: 250px;
     padding: 10px;
     display: flex;
     align-items:center;
@@ -277,6 +278,8 @@ input[type="text"], textarea {
 }
 
 .itemBox {
+    width: 300px;
+    height: 100px;
     display: flex;
     justify-content: center;
 }
