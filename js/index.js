@@ -1,10 +1,9 @@
 let removeBtn               = document.getElementsByClassName('btn__remove');
 let removal                 = document.getElementById('removal');
 const productShowcase       = document.querySelector('.showcase')
-const searchBar = document.getElementById("searchBar");
+const searchBar = document.getElementById("searchBar")
 const navigation = document.querySelector('.nav__list')
 navigation.addEventListener("click", filterPage)
-productShowcase.addEventListener('click', addItem)
 removal.addEventListener('click', removeItem)
 
 let listaProdutosCarrinho = [];
@@ -30,9 +29,10 @@ function criarProdutos(produtos){
         productDescription.classList.add('description', 'gap')
         productValue.classList.add('value', 'gap')
         productCart.classList.add('add__cart', 'btn')
+        productCart.addEventListener('click', addItem)
         
         productImg.src               = produtos[i].img
-        productType.innerText        = produtos[i].link
+        productType.innerText        = produtos[i].tag
         productTitle.innerText       = produtos[i].nameItem
         productDescription.innerText = produtos[i].description
         productValue.innerText       = produtos[i].value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -81,69 +81,84 @@ function criarProdutosCart(){
 }
 
 function addItem(event){
-    let addBtn = event.target;
-    const productId = addBtn.id
+    let productId       = event.target.id
     let productReceiver = data.find(item => item.id == productId)
     
     listaProdutosCarrinho.push(productReceiver)
+    totalUpdate(listaProdutosCarrinho)
     criarProdutosCart()
 }
 
 function removeItem(event){
-    let removeBtn = event.target;
+    let removeBtn   = event.target;
     const productId = removeBtn.id
     removeBtn.closest('.itemBox').remove()
 
-    listaProdutosCarrinho = listaProdutosCarrinho.filter(item => item.id != productId)
+    const indice = listaProdutosCarrinho.findIndex(produto => produto.id == productId)
+    listaProdutosCarrinho.splice(indice, 1)
+    totalUpdate(listaProdutosCarrinho)
     criarProdutosCart()
 }
 
-//FUNÇÃO EM ANDAMENTO
-function calculateTotal(listaProdutosCarrinho){
-    const itemQty = document.querySelector('.itemQuantity')
-    const itemValue = document.querySelector('.itemTotal')
+function totalUpdate(listaProdutosCarrinho){
+    const itemQty   = document.querySelector('.itemQuantity')
+    const itemTotal = document.querySelector('.itemTotal')
     
-    let quantidade = 0
+    let quantidade = listaProdutosCarrinho.length
     let precoTotal = 0
-    
-    const valor = document.querySelector('.totalValue')
 
     listaProdutosCarrinho.forEach(item => {
-        precoTotal += Number(listaProdutosCarrinho[i].value)
+        precoTotal += Number(item.value)
     })
 
-    itemTotal.innerText = precoTotal
+    itemTotal.innerText = `${precoTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
 
-    for(let i = 0; i < listaProdutosCarrinho.length; i++){
-        quantidade += listaProdutosCarrinho.length
-        valor += listaProdutosCarrinho.length
-    }
-
-    itemQty.innerText = quantidade
+    itemQty.innerText   = quantidade
 }
 
-//FUNÇÃO EM ANDAMENTO, APENAS 'TODOS' FUNCIONA
 function filterPage(event){
     productShowcase.innerHTML = '';
-    const arr = [];
+    const arr  = [];
 
     const type = event.target;
-    const productId = type.id
-    const tagSelector = data.find(item => item.id == productId)
-    
-    if(type.id == 'Todos'){
-        criarProdutos(data)
-     } else {
-        if(type.id == data.link){
-            arr.push(tagSelector)
-        }
-        criarProdutos(arr)
-    }
-    //  }
 
-    // if(arr.length == 0 && productShowcase !== ''){
-    //     productShowcase.data
-    // } else {
-        
-    //}
+    if(type.id === 'Todos'){
+        criarProdutos(data)
+     } else if (type.id == 'Acessórios'){
+        data.filter((item) => {
+            if(item.tag == 'Acessórios'){
+                arr.push(item)
+            }
+        })
+    } else if (type.id == 'Camisetas'){
+        data.filter((item) => {
+            if(item.tag == 'Camisetas'){
+                arr.push(item)
+            }
+        })
+    } else {
+        productShowcase.innerText = 'Produto não encontrado... :('
+    }
+    criarProdutos(arr)
+}
+
+function searchBox(){
+        searchBar.addEventListener('keyup', function(e){
+            filteredSearch(e.target.value, data)
+        })
+}
+searchBox()
+
+function filteredSearch(input, data){
+    let inputTratada = input.toLowerCase()
+    let arr = [];
+    productShowcase.innerHTML = '';
+
+    data.filter((item) => {
+        if(item.nameItem.toLowerCase().includes(inputTratada)){
+            arr.push(item)
+            productShowcase.innerHTML = '';
+        }
+    })
+    criarProdutos(arr)
 }
